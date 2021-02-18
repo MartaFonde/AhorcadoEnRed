@@ -66,8 +66,8 @@ namespace AhorcadoEnRed
             this.nuevoJuegoToolStrip.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.nuevoJuegoToolStrip.Name = "nuevoJuegoToolStrip";
             this.nuevoJuegoToolStrip.Size = new System.Drawing.Size(23, 22);
-            this.nuevoJuegoToolStrip.Text = "toolStripButton1";
-            this.nuevoJuegoToolStrip.Click += new System.EventHandler(this.nuevoJuego);
+            this.nuevoJuegoToolStrip.Text = "New word";
+            this.nuevoJuegoToolStrip.Click += new System.EventHandler(this.getWord);
             // 
             // toolStripButton2
             // 
@@ -76,7 +76,7 @@ namespace AhorcadoEnRed
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.Text = "toolStripButton2";
+            this.toolStripButton2.Text = "Show records";
             this.toolStripButton2.Click += new System.EventHandler(this.showRecordsMnu_click);
             // 
             // menuStrip1
@@ -96,15 +96,15 @@ namespace AhorcadoEnRed
             this.nuevoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nuevoJuegoMnu});
             this.nuevoToolStripMenuItem.Name = "nuevoToolStripMenuItem";
-            this.nuevoToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
-            this.nuevoToolStripMenuItem.Text = "Nuevo";
+            this.nuevoToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.nuevoToolStripMenuItem.Text = "New";
             // 
             // nuevoJuegoMnu
             // 
             this.nuevoJuegoMnu.Name = "nuevoJuegoMnu";
             this.nuevoJuegoMnu.Size = new System.Drawing.Size(180, 22);
-            this.nuevoJuegoMnu.Text = "Nuevo partida";
-            this.nuevoJuegoMnu.Click += new System.EventHandler(this.nuevoJuego);
+            this.nuevoJuegoMnu.Text = "New game";
+            this.nuevoJuegoMnu.Click += new System.EventHandler(this.getWord);
             // 
             // récordsToolStripMenuItem
             // 
@@ -112,13 +112,13 @@ namespace AhorcadoEnRed
             this.mostrarRécordsToolStripMenuItem});
             this.récordsToolStripMenuItem.Name = "récordsToolStripMenuItem";
             this.récordsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.récordsToolStripMenuItem.Text = "Récords";
+            this.récordsToolStripMenuItem.Text = "Records";
             // 
             // mostrarRécordsToolStripMenuItem
             // 
             this.mostrarRécordsToolStripMenuItem.Name = "mostrarRécordsToolStripMenuItem";
             this.mostrarRécordsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.mostrarRécordsToolStripMenuItem.Text = "Mostrar récords";
+            this.mostrarRécordsToolStripMenuItem.Text = "Show records";
             this.mostrarRécordsToolStripMenuItem.Click += new System.EventHandler(this.showRecordsMnu_click);
             // 
             // servidorToolStripMenuItem
@@ -127,21 +127,21 @@ namespace AhorcadoEnRed
             this.nuevaPalabraMnu,
             this.cerrarServidorToolStripMenuItem});
             this.servidorToolStripMenuItem.Name = "servidorToolStripMenuItem";
-            this.servidorToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
-            this.servidorToolStripMenuItem.Text = "Servidor";
+            this.servidorToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.servidorToolStripMenuItem.Text = "Server";
             // 
             // nuevaPalabraMnu
             // 
             this.nuevaPalabraMnu.Name = "nuevaPalabraMnu";
-            this.nuevaPalabraMnu.Size = new System.Drawing.Size(151, 22);
-            this.nuevaPalabraMnu.Text = "Nueva palabra";
-            this.nuevaPalabraMnu.Click += new System.EventHandler(this.nuevaPalabraMnu_Click);
+            this.nuevaPalabraMnu.Size = new System.Drawing.Size(180, 22);
+            this.nuevaPalabraMnu.Text = "New word";
+            this.nuevaPalabraMnu.Click += new System.EventHandler(this.sendWord);
             // 
             // cerrarServidorToolStripMenuItem
             // 
             this.cerrarServidorToolStripMenuItem.Name = "cerrarServidorToolStripMenuItem";
-            this.cerrarServidorToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
-            this.cerrarServidorToolStripMenuItem.Text = "Cerrar servidor";
+            this.cerrarServidorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cerrarServidorToolStripMenuItem.Text = "Close server";
             // 
             // timer1
             // 
