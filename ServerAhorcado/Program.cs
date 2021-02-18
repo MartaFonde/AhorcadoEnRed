@@ -27,20 +27,20 @@ namespace ServerAhorcado
         const string CLOSE_SERVER = "closeserver";
 
         static Socket sClient;
-        static string path = "C:\\Users\\PC\\Desktop\\words.txt";
-        static string pathRecords = "C:\\Users\\PC\\Desktop\\records.txt";
+        static string pathWords = "C:\\Users\\marta\\Desktop\\words.txt";
+        static string pathRecords = "C:\\Users\\marta\\Desktop\\records.txt";
 
         static void ReadFileWords()
         {
             words.Clear();
             string line;
-            //using(StreamReader sr = new StreamReader(ServerAhorcado.Properties.Resources.words))
-            using (StreamReader sr = new StreamReader(path))
+            using (StreamReader sr = new StreamReader(pathWords))
             {
                 line = sr.ReadLine();
                 while(line != null)
                 {
                     words.Add(line);
+                    line = sr.ReadLine();
                 }               
             }                
         }
@@ -57,7 +57,7 @@ namespace ServerAhorcado
             {
                 string line;
                 using(StreamReader sr = new StreamReader(arg))
-                using (StreamWriter sw = new StreamWriter(path, true))
+                using (StreamWriter sw = new StreamWriter(pathWords, true))
                 {
                     line = sr.ReadLine();
                     while (line != null)
@@ -66,13 +66,14 @@ namespace ServerAhorcado
                         foreach (string word in newWords)
                         {
                             sw.WriteLine( word.Trim());
+                            line = sr.ReadLine();
                         }                        
                     }
                 }
             }
             else
             {
-                using (StreamWriter sw = new StreamWriter(path, true))
+                using (StreamWriter sw = new StreamWriter(pathWords, true))
                 {
                     sw.WriteLine(arg.Trim());
                 }
@@ -90,6 +91,7 @@ namespace ServerAhorcado
                 while (line != null)
                 {
                     numLines++;
+                    line = sr.ReadLine();
                 }
             }
 
@@ -103,7 +105,7 @@ namespace ServerAhorcado
                 using (StreamReader sr = new StreamReader(pathRecords))
                 {
                     line = sr.ReadLine();
-                    while (line != null)
+                    while (line != null && numLines < 10)
                     {                        
                         string[] timeRecord = line.Substring(0, 4).Split(':');
                         if (Convert.ToInt32(time[0]) <= Convert.ToInt32(timeRecord[0]) &&
@@ -112,26 +114,52 @@ namespace ServerAhorcado
                             return true;
                         }
                         numLines++;
+                        line = sr.ReadLine();
                     }
                 }
             }
-            return false;
- 
+            return false; 
         }
-
 
         static void WriteRecord(string record)
         {
+            string[] timeRecord = record.Substring(SEND_RECORD.Length + 1, 5).Split(':');
             string line;
+            int numLines = 0;
             using (StreamReader sr = new StreamReader(pathRecords))
             using (StreamWriter sw = new StreamWriter(pathRecords + "2.txt"))
             {
                 line = sr.ReadLine();
-                while (line != null)
+                if(line == null)
                 {
-
+                    sw.WriteLine(record.Substring(SEND_RECORD.Length + 1));
                 }
+                else
+                {
+                    while (line != null && numLines < 10)
+                    {
+                        string[] timeFileRecord = line.Substring(0, 5).Split(':');
+                        if (Convert.ToInt32(timeFileRecord[0]) <= Convert.ToInt32(timeRecord[0]) &&
+                            Convert.ToInt32(timeFileRecord[1]) <= Convert.ToInt32(timeRecord[1]))
+                        {
+                            sw.WriteLine(line);
+                        }
+                        else
+                        {
+                            sw.WriteLine(record.Substring(SEND_RECORD.Length + 1));
+                        }
+
+                        line = sr.ReadLine();
+                        numLines++;
+
+                        if (line == null && numLines < 10)  //se non se escribiu o record ata a última linea --- ultimo posto
+                        {
+                            sw.WriteLine(record.Substring(SEND_RECORD.Length + 1));
+                        }                        
+                    }
+                }                
             }
+            File.Replace(pathRecords + "2.txt", pathRecords, pathRecords+"backup.txt");
         }
 
         static void HiloServer()
@@ -160,16 +188,26 @@ namespace ServerAhorcado
                                     else
                                     {
                                         WriteFileWord(arg, false);
-                                    }                                    
-                                }else if (msg.StartsWith(SEND_RECORD) && msg.Length == 16)
-                                {
-                                    string arg = msg.Substring(SEND_RECORD.Length + 1);
-                                    sw.Write(ReadRecords(arg));
-                                    sw.Flush();
-                                }else if(msg.StartsWith(SEND_RECORD) && msg.Length > 16)
-                                {
-
+                                    }  
+                                    
                                 }
+                                
+                                else if (msg.StartsWith(SEND_RECORD) )
+                                {
+                                    if(msg.Length == 16)
+                                    {
+                                        string arg = msg.Substring(SEND_RECORD.Length + 1); //solo record tiempo
+                                        string rdo = ReadRecords(arg).ToString();
+                                        Console.WriteLine(rdo);
+                                        sw.WriteLine(rdo);     //compruebo si tiene que entrar en la lista
+                                        sw.Flush();
+                                    }
+                                    else
+                                    {
+                                        WriteRecord(msg);
+                                    }                                    
+                                }
+
                                 else
                                 {
                                     switch (msg)

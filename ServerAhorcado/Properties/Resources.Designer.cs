@@ -59,14 +59,5 @@ namespace ServerAhorcado.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a hola,casa,ciudad,pandemia,virus.
-        /// </summary>
-        internal static string words {
-            get {
-                return ResourceManager.GetString("words", resourceCulture);
-            }
-        }
     }
 }

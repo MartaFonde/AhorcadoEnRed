@@ -17,7 +17,6 @@ namespace AhorcadoEnRed
     public partial class Form1 : Form
     {
         static readonly internal object l = new object();
-        static readonly internal object m = new object();
         const string IP_SERVER = "127.0.0.1";
         IPAddress ip = IPAddress.Parse(IP_SERVER);
         int port = 31416;
@@ -34,6 +33,7 @@ namespace AhorcadoEnRed
         string msgDeServer;
 
         string palabra;
+        List<char> letras = new List<char>();
 
         bool running = true;
         Label lblLetra;
@@ -42,7 +42,7 @@ namespace AhorcadoEnRed
 
         bool palabraNueva = false;
         DateTime start;
-        int numAciertos;
+        int numAciertos = 0;
         int numLetras;
 
         public Form1()
@@ -70,31 +70,35 @@ namespace AhorcadoEnRed
                                 if (msgPaServer.StartsWith(SEND_RECORD))
                                 {
                                     msgDeServer = sr.ReadLine();
-                                    if(msgDeServer == "true")
+
+                                    MessageBox.Show(msgDeServer);
+
+                                    if(msgDeServer == "True")
                                     {
-                                        msgPaServer = SEND_RECORD +" "+ lblTimer + " AAA " + "192.168.0.1";     //pedir nombre
-                                        sw.Write(msgPaServer);
+                                        msgPaServer = SEND_RECORD +" "+ lblTimer.Text + " AAA " + "192.168.0.1";     //pedir nombre
+                                        sw.WriteLine(msgPaServer);
                                         sw.Flush();
+                                        //pedir palabra nueva
+                                    }
+                                }
+                                else
+                                {
+                                    switch (msgPaServer)
+                                    {
+                                        case GET_WORD:
+                                            palabra = sr.ReadLine();
+                                            palabraNueva = true;
+                                            Monitor.Pulse(l);
+                                            break;
+
+                                            //case SEND_RECORD:
+
+                                            //    break;
+
                                     }
                                 }
 
-                                switch (msgPaServer)
-                                {
-                                    case GET_WORD:
-                                        palabra = sr.ReadLine();
-                                        
-                                        lock (m)
-                                        {
-                                            palabraNueva = true;
-                                            Monitor.Pulse(m);
-                                        }
-                                        break;
-
-                                    //case SEND_RECORD:
-
-                                    //    break;
-                                    
-                                }
+                                
 
                             }
                         }
@@ -104,7 +108,8 @@ namespace AhorcadoEnRed
                             running = false;
                         }                                               
                     }
-                    Monitor.Wait(l);
+                    
+                    Monitor.Wait(l);        //PROBLEMA se se cerra o server queda en Wait
                 }                               
             }           
         }
@@ -114,6 +119,7 @@ namespace AhorcadoEnRed
             eliminaLabel();
             lock (l)
             {
+                letras.Clear();
                 for (int i = 0; i < palabra.Length; i++)
                 {
                     lblLetra = new Label();
@@ -123,9 +129,18 @@ namespace AhorcadoEnRed
                     posXLetra += 40;
                     lblLetra.Text = "_";
                     lblLetra.Tag = palabra[i];
+
+                    if (!letras.Contains(palabra[i]))
+                    {
+                        letras.Add(palabra[i]);
+                    }
+
                     this.Controls.Add(lblLetra);
                 }
                 numLetras = palabra.Length;
+                palabraNueva = true;
+                numAciertos = 0;
+
             }
             posXLetra = 15;
             start = DateTime.Now;
@@ -148,11 +163,11 @@ namespace AhorcadoEnRed
             lock (l)
             {
                 Monitor.Pulse(l);
-            }
-            lock (m)
-            {
-                Monitor.Wait(m);
-                pintarNuevaPalabra();
+                while (!palabraNueva)
+                {                    
+                    Monitor.Wait(l);
+                    pintarNuevaPalabra();                    
+                }
                 palabraNueva = false;
             }
         }
@@ -199,14 +214,16 @@ namespace AhorcadoEnRed
 
                 while (!palabraNueva)
                 {
-                    lock (m)
-                    {
-                        Monitor.Wait(m);
+                    lock (l)
+                    {                                            
+                        Monitor.Wait(l);
                         pintarNuevaPalabra();
+                        palabraNueva = true;
                     }
                 }
+                
                 timer1.Enabled = true;
-                lock (m)
+                lock (l)
                 {
                     palabraNueva = false;
                 }
@@ -229,15 +246,15 @@ namespace AhorcadoEnRed
                     if ((char)c.Tag == e.KeyChar)
                     {
                         ((Label)c).Text = c.Tag.ToString();
-                        numAciertos++;
+                        letras.Remove((char)c.Tag);
                     }
                 }
             }
             lock (l)
             {
-                if(numAciertos == palabra.Length)
+                if (letras.Count == 0)
                 {
-                    msgPaServer = SEND_RECORD + " "+lblTimer;
+                    msgPaServer = SEND_RECORD + " " + lblTimer.Text;
                     Monitor.Pulse(l);
                 }
             }

@@ -1,1 +1,5 @@
-hola,casa,ciudad,pandemia,virus
+hola
+casa
+ciudad
+pandemia
+virus
