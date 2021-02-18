@@ -77,6 +77,7 @@ namespace AhorcadoEnRed
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton2.Text = "toolStripButton2";
+            this.toolStripButton2.Click += new System.EventHandler(this.showRecordsMnu_click);
             // 
             // menuStrip1
             // 
@@ -101,8 +102,8 @@ namespace AhorcadoEnRed
             // nuevoJuegoMnu
             // 
             this.nuevoJuegoMnu.Name = "nuevoJuegoMnu";
-            this.nuevoJuegoMnu.Size = new System.Drawing.Size(142, 22);
-            this.nuevoJuegoMnu.Text = "Nuevo juego";
+            this.nuevoJuegoMnu.Size = new System.Drawing.Size(180, 22);
+            this.nuevoJuegoMnu.Text = "Nuevo partida";
             this.nuevoJuegoMnu.Click += new System.EventHandler(this.nuevoJuego);
             // 
             // récordsToolStripMenuItem
@@ -116,8 +117,9 @@ namespace AhorcadoEnRed
             // mostrarRécordsToolStripMenuItem
             // 
             this.mostrarRécordsToolStripMenuItem.Name = "mostrarRécordsToolStripMenuItem";
-            this.mostrarRécordsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.mostrarRécordsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.mostrarRécordsToolStripMenuItem.Text = "Mostrar récords";
+            this.mostrarRécordsToolStripMenuItem.Click += new System.EventHandler(this.showRecordsMnu_click);
             // 
             // servidorToolStripMenuItem
             // 
@@ -166,7 +168,7 @@ namespace AhorcadoEnRed
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Ahorcado en Red";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.toolStrip1.ResumeLayout(false);

@@ -29,6 +29,8 @@ namespace AhorcadoEnRed
             {
                 lock (l)
                 {
+                    Monitor.Wait(l);
+
                     using (NetworkStream ns = new NetworkStream(sServer))
                     using (StreamReader sr = new StreamReader(ns))
                     using (StreamWriter sw = new StreamWriter(ns))
@@ -74,15 +76,9 @@ namespace AhorcadoEnRed
                         catch (IOException)
                         {
                             MessageBox.Show("Error de conexión", "Error");
-                            Monitor.Pulse(l);
-                            //Form1.conexion = false;
                             Running = false;
                         }
-                    }
-                    if (Running)
-                    {
-                        Monitor.Wait(l);
-                    }
+                    }                    
                 }
             }
         }

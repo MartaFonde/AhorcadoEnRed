@@ -16,26 +16,24 @@ namespace AhorcadoEnRed
 {
     public partial class Form1 : Form
     {
-        //static readonly internal object l = new object();
         const string IP_SERVER = "127.0.0.1";
-        IPAddress ip = IPAddress.Parse(IP_SERVER);
+        IPAddress ipServer = IPAddress.Parse(IP_SERVER);
         int port = 31416;
         static internal Socket sServer;
-        ComunicacionClient com;
-        static internal bool conexion = true;
 
         //comandos
         const string GET_WORD = "getword";
         const string SEND_WORD = "sendword";     //sendword palabra
         const string GET_RECORDS = "getrecords";
-        const string SEND_RECORD = "sendrecord";
-        const string CLOSE_SERVER = "closeserver";
+        const string SEND_RECORD = "sendrecord";        //sendrecord 00:00 ó sendrecord 00:00 NOM 192.168.0.X
+        const string CLOSE_SERVER = "closeserver";      //closeserver clave
 
         static internal string msgPaServer;
         static internal string msgDeServer;
 
         static internal string palabra;
         List<char> letras = new List<char>();
+        string records;
 
         Label lblLetra;
         int posYLetra = 100;
@@ -45,41 +43,98 @@ namespace AhorcadoEnRed
         static internal string tiempoPartida;
 
         DateTime start;
-        bool mandoRecord = false;
+
+        string nameUser = "";
+        string ipUser;
 
         public Form1()
         {
             InitializeComponent();            
         }
 
+        private void sendToServer(string msg)
+        {
+            try
+            {                
+                using (NetworkStream ns = new NetworkStream(sServer))
+                using (StreamReader sr = new StreamReader(ns))
+                using (StreamWriter sw = new StreamWriter(ns))
+                {
+                    if (msg != null)
+                    {
+                        sw.WriteLine(msg);
+                        sw.Flush();
+
+                        if (msg.StartsWith(SEND_RECORD))
+                        {
+                            msgDeServer = sr.ReadLine();
+                            if (msgDeServer == "True")
+                            {
+                                if (RequestNameUser())
+                                {
+                                    msgPaServer = SEND_RECORD + " " + tiempoPartida + " " + nameUser + " " + ipUser;
+                                    sw.WriteLine(msgPaServer);
+                                    sw.Flush();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            switch (msg)
+                            {
+                                case GET_WORD:
+                                    palabra = sr.ReadLine();
+                                    pintarNuevaPalabra();
+                                    break;
+
+                                case GET_RECORDS:
+                                    records = sr.ReadLine();
+                                    MostrarRecords(records);
+                                    break;
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Error de conexión", "Error");
+            }                                                 
+        }
+
+
+        private void MostrarRecords(string records)
+        {
+            string rec = records.Replace("____", "\r\n");
+            MessageBox.Show(rec, "Records");
+        }
+
         private void pintarNuevaPalabra()
         {
-            eliminaLabel();
-            lock (com.l)
+            eliminaLabel();            
+            letras.Clear();
+            for (int i = 0; i < palabra.Length; i++)
             {
-                letras.Clear();
-                for (int i = 0; i < palabra.Length; i++)
+                lblLetra = new Label();
+                lblLetra.ForeColor = Color.Black;
+                lblLetra.Size = new Size(30, 30);
+                lblLetra.Location = new Point(posXLetra, posYLetra);
+                posXLetra += 40;
+                lblLetra.Text = "_";
+                lblLetra.Tag = palabra[i];
+
+                if (!letras.Contains(palabra[i]))
                 {
-                    lblLetra = new Label();
-                    lblLetra.ForeColor = Color.Black;
-                    lblLetra.Size = new Size(30, 30);
-                    lblLetra.Location = new Point(posXLetra, posYLetra);
-                    posXLetra += 40;
-                    lblLetra.Text = "_";
-                    lblLetra.Tag = palabra[i];
-
-                    if (!letras.Contains(palabra[i]))
-                    {
-                        letras.Add(palabra[i]);
-                    }
-
-                    this.Controls.Add(lblLetra);
+                    letras.Add(palabra[i]);
                 }
-                palabraNueva = true;
 
+                this.Controls.Add(lblLetra);
             }
+            
             posXLetra = 15;
             start = DateTime.Now;
+            timer1.Enabled = true;
         }
 
         void eliminaLabel()
@@ -93,29 +148,58 @@ namespace AhorcadoEnRed
             }
         }
 
-        private void nuevoJuego(object sender, EventArgs e)
+        private bool RequestNameUser()
         {
-            msgPaServer = GET_WORD;
-
-            if (conexion)
-            {
-                lock (com.l)
-                {
-                    Monitor.Pulse(com.l);
-                    while (!palabraNueva)
+            Form3 f3 = new Form3();
+            f3.StartPosition = FormStartPosition.CenterScreen;
+            f3.lblErrorName.Text = "";
+            bool nameCorrect = false;
+            while (!nameCorrect)
+            {                
+                DialogResult res = f3.ShowDialog();
+                if(res == DialogResult.OK)
+                {                    
+                    if(f3.txtName.Text.Length == 0)
                     {
-                        Monitor.Wait(com.l);
-                        pintarNuevaPalabra();
+                        f3.lblErrorName.Text = "Introduce name";
                     }
-                    palabraNueva = false;
-                    mandoRecord = false;
+                    else
+                    {                        
+                        nameUser = f3.txtName.Text;
+                        getIP();
+                        return true;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        private void getIP()
+        {
+            string localhost = Dns.GetHostName();
+            IPHostEntry hostInfo = Dns.GetHostEntry(localhost);
+            foreach (IPAddress ip in hostInfo.AddressList)
+            {
+                if(ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    ipUser = ip.ToString();
                 }
             }            
+        }
+
+        private void nuevoJuego(object sender, EventArgs e)
+        {
+            sendToServer(GET_WORD);                                                             
         }
 
         private void nuevaPalabraMnu_Click(object sender, EventArgs e)
         {
             Form2 f2 = new Form2();
+            f2.StartPosition = FormStartPosition.CenterScreen;
             f2.lblError.Text = "";
             bool wordCorrect = false;
 
@@ -127,54 +211,30 @@ namespace AhorcadoEnRed
                     if(f2.txtWord.Text.Trim().Length > 0)
                     {
                         wordCorrect = true;
-                        msgPaServer = SEND_WORD+" "+f2.txtWord.Text;
-
-                        if (conexion)
-                        {
-                            lock (com.l)
-                            {
-                                Monitor.Pulse(com.l);
-                            }
-                        }                        
+                        sendToServer(SEND_WORD + " " + f2.txtWord.Text);
+                    }
+                    else
+                    {
+                        f2.lblError.Text = "Introduce new word";
                     }
                 }
                 else
                 {
-                    f2.lblError.Text = "Introduce new word";
+                    break;
                 }
             }            
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            IPEndPoint ie = new IPEndPoint(ip, port);
+            IPEndPoint ie = new IPEndPoint(ipServer, port);
             sServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             try
             {
                 sServer.Connect(ie);
-                msgPaServer = GET_WORD;
-
-                com = new ComunicacionClient(sServer);
-
-                while (!palabraNueva)
-                {
-                    lock (com.l)
-                    {
-                        if (conexion)
-                        {
-                            Monitor.Wait(com.l);
-                            pintarNuevaPalabra();
-                            palabraNueva = true;
-                        }                                               
-                    }
-                }
-                
-                timer1.Enabled = true;
-                lock (com.l)
-                {
-                    palabraNueva = false;
-                }
+                sendToServer(GET_WORD);                                
+                timer1.Enabled = true;                
             }
             catch (SocketException ex)
             {
@@ -191,38 +251,30 @@ namespace AhorcadoEnRed
             {
                 if (c is Label && c.Name != "lblTimer")
                 {
-                    if ((char)c.Tag == e.KeyChar)
+                    if (c.Tag.ToString() == e.KeyChar.ToString().ToLower())
                     {
                         ((Label)c).Text = c.Tag.ToString();
                         letras.Remove((char)c.Tag);
                     }
                 }
-            }
-            lock (com.l)
+            }            
+            if (letras.Count == 0)
             {
-                if (letras.Count == 0 && !mandoRecord)
-                {
-                    mandoRecord = true;
-                    tiempoPartida = lblTimer.Text;
-                    msgPaServer = SEND_RECORD + " " + tiempoPartida;
-                    if (conexion)
-                    {
-                        Monitor.Pulse(com.l);
-                    }                                                       
-                }
-            }
+                timer1.Enabled = false;
+                tiempoPartida = lblTimer.Text;
+                sendToServer(SEND_RECORD + " " + tiempoPartida);
+            }            
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             TimeSpan dif = DateTime.Now - start;
             lblTimer.Text = string.Format("{0:mm\\:ss}", dif);
+        }
 
-            msgPaServer = null;
-            lock (com.l)
-            {
-                Monitor.Pulse(com.l);                
-            }
+        private void showRecordsMnu_click(object sender, EventArgs e)
+        {
+            sendToServer(GET_RECORDS);
         }
     }
 }
