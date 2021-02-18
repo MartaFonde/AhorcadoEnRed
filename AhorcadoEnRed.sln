@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AhorcadoEnRed", "AhorcadoEnRed\AhorcadoEnRed.csproj", "{926329EB-380D-4008-A9C9-081C1DC0E9EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAhorcado", "ServerAhorcado\ServerAhorcado.csproj", "{78FB76EE-97EC-4BCA-86E5-C43AB363DE4A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{926329EB-380D-4008-A9C9-081C1DC0E9EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{926329EB-380D-4008-A9C9-081C1DC0E9EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{926329EB-380D-4008-A9C9-081C1DC0E9EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{926329EB-380D-4008-A9C9-081C1DC0E9EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78FB76EE-97EC-4BCA-86E5-C43AB363DE4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78FB76EE-97EC-4BCA-86E5-C43AB363DE4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78FB76EE-97EC-4BCA-86E5-C43AB363DE4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78FB76EE-97EC-4BCA-86E5-C43AB363DE4A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3410E8F5-7048-47F3-894E-603BB56CADB9}
+	EndGlobalSection
+EndGlobal
