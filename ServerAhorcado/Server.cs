@@ -11,30 +11,33 @@ namespace ServerAhorcado
     {
         static readonly internal object l = new object();
 
-        static bool running = true;
-        static Random random = new Random();
-        static List<string> words = new List<string>();
+        private Socket s;
+        private Socket sClient;
+
+        bool running = true;
+        Random random = new Random();
+        List<string> words = new List<string>();
 
         //comandos
         const string GET_WORD = "getword";
         const string SEND_WORD = "sendword";     //sendword word
         const string GET_RECORDS = "getrecords";
         const string SEND_RECORD = "sendrecord";        //sendrecord time ---- sendrecord time name ip
-        const string CLOSE_SERVER = "closeserver";
+        const string CLOSE_SERVER = "closeserver";      //closeserver clave --- A clave será "clave"
 
-        static Socket sClient;
+        private string psw = "clave";        
 
-        static string pathWords = "..\\..\\words.txt";
-        static string pathRecords = "..\\..\\records.txt";
-        static string pahtRecordsTemp = "..\\..\\recordsTemp.txt";
-        static string pahtRecordsBackUp = "..\\..\\recordsTempBackUp.txt";
+        string pathWords = "..\\..\\words.txt";
+        string pathRecords = "..\\..\\records.txt";
+        string pahtRecordsTemp = "..\\..\\recordsTemp.txt";
+        string pahtRecordsBackUp = "..\\..\\recordsTempBackUp.txt";
 
         public Server()
         {
             int port = 31416;
             bool portFree = false;
 
-            using (Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+            //using (Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
                 while (!portFree)
                 {
@@ -42,12 +45,13 @@ namespace ServerAhorcado
                     {
                         portFree = true;
                         IPEndPoint ie = new IPEndPoint(IPAddress.Any, port);
+                        s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                         s.Bind(ie);
                         s.Listen(5);
 
                         Console.WriteLine("Server waiting at port {0}", ie.Port);
 
-                        while (true)
+                        while (true)  
                         {
                             sClient = s.Accept();
                             Thread thread = new Thread(ThreadServer);
@@ -68,7 +72,7 @@ namespace ServerAhorcado
             }
         }
 
-        static void ThreadServer()
+        private void ThreadServer()
         {
             while (running)
             {
@@ -87,7 +91,8 @@ namespace ServerAhorcado
                                 if (msg.StartsWith(SEND_WORD))
                                 {
                                     string arg = msg.Substring(SEND_WORD.Length + 1);
-                                    WriteFileWord(arg);
+                                    sw.WriteLine(WriteFileWord(arg));
+                                    sw.Flush();                                    
                                 }
 
                                 else if (msg.StartsWith(SEND_RECORD))
@@ -103,6 +108,17 @@ namespace ServerAhorcado
                                     {
                                         WriteRecord(msg);
                                     }
+                                }else if (msg.StartsWith(CLOSE_SERVER))
+                                {
+                                    Console.WriteLine("'"+ msg.Substring(CLOSE_SERVER.Length + 1)+"'");
+                                    if (msg.Substring(CLOSE_SERVER.Length+1) == psw)
+                                    {
+                                        sw.WriteLine("True");
+                                        sw.Flush();
+                                        running = false;
+                                        s.Close();
+                                        //throw new IOException();
+                                    }                                    
                                 }
                                 else
                                 {
@@ -128,15 +144,15 @@ namespace ServerAhorcado
                     catch (IOException e)
                     {
                         Console.WriteLine(e.Message);
-                        sClient.Close();
                         running = false;
+                        sClient.Close();
                     }
                 }
             }
 
         }
 
-        static bool ReadFileWords()
+        private bool ReadFileWords()
         {
             if (File.Exists(pathWords))
             {
@@ -160,7 +176,7 @@ namespace ServerAhorcado
             }
         }
 
-        static string GetWord()
+        private string GetWord()
         {
             if (ReadFileWords())
             {
@@ -172,36 +188,53 @@ namespace ServerAhorcado
             }
         }
 
-        static void WriteFileWord(string arg)
+        private bool WriteFileWord(string arg)
         {
             if (File.Exists(arg))
             {
                 string line;
-                using (StreamReader sr = new StreamReader(arg))
-                using (StreamWriter sw = new StreamWriter(pathWords, true))
+                try
                 {
-                    line = sr.ReadLine();
-                    while (line != null)
+                    using (StreamReader sr = new StreamReader(arg))
+                    using (StreamWriter sw = new StreamWriter(pathWords, true))
                     {
-                        string[] newWords = line.Split(',');
-                        foreach (string word in newWords)
+                        line = sr.ReadLine();
+                        while (line != null)
                         {
-                            sw.WriteLine(word.Trim());
-                            line = sr.ReadLine();
+                            string[] newWords = line.Split(',');
+                            foreach (string word in newWords)
+                            {
+                                sw.WriteLine(word.Trim());
+                                line = sr.ReadLine();
+                            }
                         }
                     }
                 }
+                catch (IOException)
+                {
+                    return false;
+                }
+                
+                return true;
             }
             else
             {
-                using (StreamWriter sw = new StreamWriter(pathWords, true))
+                try
                 {
-                    sw.WriteLine(arg.Trim());
+                    using (StreamWriter sw = new StreamWriter(pathWords, true))
+                    {
+                        sw.WriteLine(arg.Trim());
+                    }                    
                 }
+                catch (IOException)
+                {
+                    return false;
+                }
+                return true;
             }
         }
 
-        static bool ReadRecordsToIncorpore(string arg)
+        private bool ReadRecordsToIncorpore(string arg)
         {
             string[] time = arg.Split(':');
             string line;
@@ -252,7 +285,7 @@ namespace ServerAhorcado
             }
         }
 
-        static void WriteRecord(string record)
+        private void WriteRecord(string record)
         {
             string[] timeRecord = record.Substring(SEND_RECORD.Length + 1, 5).Split(':');
             string line;
@@ -318,7 +351,7 @@ namespace ServerAhorcado
             File.Replace(pahtRecordsTemp, pathRecords, pahtRecordsBackUp);
         }
 
-        static string ReadRecordsToSend()
+        private string ReadRecordsToSend()
         {
             string records = "";
             try

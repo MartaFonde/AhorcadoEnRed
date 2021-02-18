@@ -57,7 +57,7 @@ namespace AhorcadoEnRed
                 {
                     if (msg != null)
                     {
-                        sw.WriteLine(msg);
+                        sw.WriteLine(msg.Trim());
                         sw.Flush();
 
                         if (msg.StartsWith(SEND_RECORD))
@@ -71,6 +71,29 @@ namespace AhorcadoEnRed
                                     sw.WriteLine(msgToServer);
                                     sw.Flush();
                                 }
+                            }
+                        }else if (msg.StartsWith(SEND_WORD))
+                        {
+                            string resp = sr.ReadLine();
+                            if(resp == "True")
+                            {
+                                MessageBox.Show("Word(s) added correctly", "Add word(s)");
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error adding word(s)", "Error");
+                            }
+                        }
+                        else if (msg.StartsWith(CLOSE_SERVER))
+                        {
+                            msgFromServer = sr.ReadLine();
+                            if(msgFromServer == "True")
+                            {
+                                MessageBox.Show("Password correct. Server closed.", "Close server");
+                            }
+                            else
+                            {
+                                MessageBox.Show("Password incorrect. Server still alive.", "Close server");
                             }
                         }
                         else
@@ -97,7 +120,7 @@ namespace AhorcadoEnRed
             }                                                 
         }
 
-        private void sendWord(object sender, EventArgs e)
+        private void sendWordMnu_click(object sender, EventArgs e)
         {
             Form2 f2 = new Form2();
             f2.StartPosition = FormStartPosition.CenterScreen;
@@ -123,7 +146,7 @@ namespace AhorcadoEnRed
                 {
                     break;
                 }
-            }
+            }            
         }
 
         void removeLabelsWord()
@@ -164,7 +187,7 @@ namespace AhorcadoEnRed
             timer1.Enabled = true;
         }
 
-        private void getWord(object sender, EventArgs e)
+        private void getWordMnu_clicl(object sender, EventArgs e)
         {
             sendToServer(GET_WORD);
         }
@@ -270,5 +293,18 @@ namespace AhorcadoEnRed
             lblTimer.Text = string.Format("{0:mm\\:ss}", dif);
         }
 
+        private void closeServerMnu_click(object sender, EventArgs e)
+        {
+            Form4 f4 = new Form4();        
+            DialogResult res = f4.ShowDialog();
+            if(res == DialogResult.OK)
+            {
+                if(f4.txtPwd.Text.Length > 0)
+                {
+                    sendToServer(CLOSE_SERVER + " " + f4.txtPwd.Text);
+                }
+            }
+            
+        }
     }
 }

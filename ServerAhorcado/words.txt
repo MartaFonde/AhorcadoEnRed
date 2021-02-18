@@ -4,4 +4,9 @@ larpeira
 palloza
 cacharela
 luar
-ventolóstrego
+vento
+lóstrego
+calabaza
+lirio
+planta
+durmir
