@@ -1,78 +1,100 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
-//namespace AhorcadoEnRed
-//{
-//    class ComunicacionClient
-//    {
+namespace AhorcadoEnRed
+{
+    class ComunicacionClient
+    {
+        readonly internal object l = new object();
+        static Socket sServer;
 
-//        void HiloClient()
-//        {
-//            while (running)
-//            {
-//                lock (l)
-//                {
-//                    using (NetworkStream ns = new NetworkStream(sServer))
-//                    using (StreamReader sr = new StreamReader(ns))
-//                    using (StreamWriter sw = new StreamWriter(ns))
-//                    {
-//                        try
-//                        {
-//                            if (msgPaServer != null)
-//                            {
-//                                sw.WriteLine(msgPaServer);
-//                                sw.Flush();
+        const string GET_WORD = "getword";
+        const string SEND_WORD = "sendword";     //sendword palabra
+        const string GET_RECORDS = "getrecords";
+        const string SEND_RECORD = "sendrecord";
+        const string CLOSE_SERVER = "closeserver";
 
-//                                if (msgPaServer.StartsWith(SEND_RECORD))
-//                                {
-//                                    msgDeServer = sr.ReadLine();
+        internal bool Running { set; get;}
 
-//                                    MessageBox.Show(msgDeServer);
+        void HiloClient()
+        {
+            while (Running)
+            {
+                lock (l)
+                {
+                    using (NetworkStream ns = new NetworkStream(sServer))
+                    using (StreamReader sr = new StreamReader(ns))
+                    using (StreamWriter sw = new StreamWriter(ns))
+                    {
+                        try
+                        {
+                            if (Form1.msgPaServer != null)
+                            {
+                                sw.WriteLine(Form1.msgPaServer);
+                                sw.Flush();
 
-//                                    if (msgDeServer == "True")
-//                                    {
-//                                        msgPaServer = SEND_RECORD + " " + lblTimer.Text + " AAA " + "192.168.0.1";     //pedir nombre
-//                                        sw.WriteLine(msgPaServer);
-//                                        sw.Flush();
-//                                    }
-//                                }
-//                                else
-//                                {
-//                                    switch (msgPaServer)
-//                                    {
-//                                        case GET_WORD:
-//                                            palabra = sr.ReadLine();
-//                                            palabraNueva = true;
-//                                            Monitor.Pulse(l);
-//                                            break;
+                                if (Form1.msgPaServer.StartsWith(SEND_RECORD))
+                                {
+                                    Form1.msgDeServer = sr.ReadLine();
 
-//                                            //case SEND_RECORD:
+                                    MessageBox.Show(Form1.msgDeServer);
 
-//                                            //    break;
+                                    if (Form1.msgDeServer == "True")
+                                    {
+                                        Form1.msgPaServer = SEND_RECORD + " " + Form1.tiempoPartida + " AAA " + "192.168.0.1";     //pedir nombre
+                                        sw.WriteLine(Form1.msgPaServer);
+                                        sw.Flush();
+                                    }
+                                }
+                                else
+                                {
+                                    switch (Form1.msgPaServer)
+                                    {
+                                        case GET_WORD:
+                                            Form1.palabra = sr.ReadLine();
+                                            Form1.palabraNueva = true;
+                                            Monitor.Pulse(l);
+                                            break;
 
-//                                    }
-//                                }
+                                            //case SEND_RECORD:
 
+                                            //    break;
 
+                                    }
+                                }
+                            }
+                        }
+                        catch (IOException)
+                        {
+                            MessageBox.Show("Error de conexión", "Error");
+                            Monitor.Pulse(l);
+                            //Form1.conexion = false;
+                            Running = false;
+                        }
+                    }
+                    if (Running)
+                    {
+                        Monitor.Wait(l);
+                    }
+                }
+            }
+        }
+       
 
-//                            }
-//                        }
-//                        catch (IOException)
-//                        {
-//                            MessageBox.Show("Error de conexión", "Error");
-//                            running = false;
-//                        }
-//                    }
+        public ComunicacionClient(Socket server)
+        {
+            sServer = server;
+            Thread threadClient = new Thread(HiloClient);
+            Running = true;
+            threadClient.Start();
+        }
 
-//                    Monitor.Wait(l);        //PROBLEMA se se cerra o server queda en Wait
-//                }
-//            }
-//        }
-
-
-
-//    }
-//}
+    }
+}

@@ -16,11 +16,13 @@ namespace AhorcadoEnRed
 {
     public partial class Form1 : Form
     {
-        static readonly internal object l = new object();
+        //static readonly internal object l = new object();
         const string IP_SERVER = "127.0.0.1";
         IPAddress ip = IPAddress.Parse(IP_SERVER);
         int port = 31416;
-        Socket sServer;
+        static internal Socket sServer;
+        ComunicacionClient com;
+        static internal bool conexion = true;
 
         //comandos
         const string GET_WORD = "getword";
@@ -29,95 +31,31 @@ namespace AhorcadoEnRed
         const string SEND_RECORD = "sendrecord";
         const string CLOSE_SERVER = "closeserver";
 
-        string msgPaServer;
-        string msgDeServer;
+        static internal string msgPaServer;
+        static internal string msgDeServer;
 
-        string palabra;
+        static internal string palabra;
         List<char> letras = new List<char>();
 
-        bool running = true;
         Label lblLetra;
         int posYLetra = 100;
         int posXLetra = 15;
 
-        bool palabraNueva = false;
+        static internal bool palabraNueva = false;
+        static internal string tiempoPartida;
+
         DateTime start;
-        int numAciertos = 0;
-        int numLetras;
+        bool mandoRecord = false;
 
         public Form1()
         {
             InitializeComponent();            
         }
 
-        void HiloClient()
-        {
-            while (running)
-            {
-                lock (l)
-                {                    
-                    using (NetworkStream ns = new NetworkStream(sServer))
-                    using (StreamReader sr = new StreamReader(ns))
-                    using (StreamWriter sw = new StreamWriter(ns))
-                    {
-                        try
-                        {
-                            if (msgPaServer != null)
-                            {
-                                sw.WriteLine(msgPaServer);
-                                sw.Flush();
-
-                                if (msgPaServer.StartsWith(SEND_RECORD))
-                                {
-                                    msgDeServer = sr.ReadLine();
-
-                                    MessageBox.Show(msgDeServer);
-
-                                    if(msgDeServer == "True")
-                                    {
-                                        msgPaServer = SEND_RECORD +" "+ lblTimer.Text + " AAA " + "192.168.0.1";     //pedir nombre
-                                        sw.WriteLine(msgPaServer);
-                                        sw.Flush();
-                                        //pedir palabra nueva
-                                    }
-                                }
-                                else
-                                {
-                                    switch (msgPaServer)
-                                    {
-                                        case GET_WORD:
-                                            palabra = sr.ReadLine();
-                                            palabraNueva = true;
-                                            Monitor.Pulse(l);
-                                            break;
-
-                                            //case SEND_RECORD:
-
-                                            //    break;
-
-                                    }
-                                }
-
-                                
-
-                            }
-                        }
-                        catch (IOException)
-                        {
-                            MessageBox.Show("Error de conexión", "Error");
-                            running = false;
-                        }                                               
-                    }
-                    
-                    Monitor.Wait(l);        //PROBLEMA se se cerra o server queda en Wait
-                }                               
-            }           
-        }
-
         private void pintarNuevaPalabra()
         {
             eliminaLabel();
-            lock (l)
+            lock (com.l)
             {
                 letras.Clear();
                 for (int i = 0; i < palabra.Length; i++)
@@ -137,9 +75,7 @@ namespace AhorcadoEnRed
 
                     this.Controls.Add(lblLetra);
                 }
-                numLetras = palabra.Length;
                 palabraNueva = true;
-                numAciertos = 0;
 
             }
             posXLetra = 15;
@@ -160,16 +96,21 @@ namespace AhorcadoEnRed
         private void nuevoJuego(object sender, EventArgs e)
         {
             msgPaServer = GET_WORD;
-            lock (l)
+
+            if (conexion)
             {
-                Monitor.Pulse(l);
-                while (!palabraNueva)
-                {                    
-                    Monitor.Wait(l);
-                    pintarNuevaPalabra();                    
+                lock (com.l)
+                {
+                    Monitor.Pulse(com.l);
+                    while (!palabraNueva)
+                    {
+                        Monitor.Wait(com.l);
+                        pintarNuevaPalabra();
+                    }
+                    palabraNueva = false;
+                    mandoRecord = false;
                 }
-                palabraNueva = false;
-            }
+            }            
         }
 
         private void nuevaPalabraMnu_Click(object sender, EventArgs e)
@@ -187,10 +128,14 @@ namespace AhorcadoEnRed
                     {
                         wordCorrect = true;
                         msgPaServer = SEND_WORD+" "+f2.txtWord.Text;
-                        lock (l)
+
+                        if (conexion)
                         {
-                            Monitor.Pulse(l);
-                        }
+                            lock (com.l)
+                            {
+                                Monitor.Pulse(com.l);
+                            }
+                        }                        
                     }
                 }
                 else
@@ -208,22 +153,25 @@ namespace AhorcadoEnRed
             try
             {
                 sServer.Connect(ie);
-                msgPaServer = GET_WORD;                
-                Thread threadClient = new Thread(HiloClient);
-                threadClient.Start();
+                msgPaServer = GET_WORD;
+
+                com = new ComunicacionClient(sServer);
 
                 while (!palabraNueva)
                 {
-                    lock (l)
-                    {                                            
-                        Monitor.Wait(l);
-                        pintarNuevaPalabra();
-                        palabraNueva = true;
+                    lock (com.l)
+                    {
+                        if (conexion)
+                        {
+                            Monitor.Wait(com.l);
+                            pintarNuevaPalabra();
+                            palabraNueva = true;
+                        }                                               
                     }
                 }
                 
                 timer1.Enabled = true;
-                lock (l)
+                lock (com.l)
                 {
                     palabraNueva = false;
                 }
@@ -250,12 +198,17 @@ namespace AhorcadoEnRed
                     }
                 }
             }
-            lock (l)
+            lock (com.l)
             {
-                if (letras.Count == 0)
+                if (letras.Count == 0 && !mandoRecord)
                 {
-                    msgPaServer = SEND_RECORD + " " + lblTimer.Text;
-                    Monitor.Pulse(l);
+                    mandoRecord = true;
+                    tiempoPartida = lblTimer.Text;
+                    msgPaServer = SEND_RECORD + " " + tiempoPartida;
+                    if (conexion)
+                    {
+                        Monitor.Pulse(com.l);
+                    }                                                       
                 }
             }
         }
@@ -264,6 +217,12 @@ namespace AhorcadoEnRed
         {
             TimeSpan dif = DateTime.Now - start;
             lblTimer.Text = string.Format("{0:mm\\:ss}", dif);
+
+            msgPaServer = null;
+            lock (com.l)
+            {
+                Monitor.Pulse(com.l);                
+            }
         }
     }
 }

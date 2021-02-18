@@ -192,7 +192,7 @@ namespace AhorcadoEnRed
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.ToolStripMenuItem nuevaPalabraMnu;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Label lblTimer;
+        internal System.Windows.Forms.Label lblTimer;
     }
 }
 
