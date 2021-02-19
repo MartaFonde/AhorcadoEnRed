@@ -158,15 +158,24 @@ namespace ServerAhorcado
             {
                 words.Clear();
                 string line;
-                using (StreamReader sr = new StreamReader(pathWords))
+                try
                 {
-                    line = sr.ReadLine();
-                    while (line != null)
+                    using (StreamReader sr = new StreamReader(pathWords))
                     {
-                        words.Add(line);
                         line = sr.ReadLine();
+                        while (line != null)
+                        {
+                            words.Add(line);
+                            line = sr.ReadLine();
+                        }
                     }
                 }
+                catch (IOException)
+                {
+
+                    return false;
+                }
+                
                 return true;
             }
             else
@@ -184,7 +193,7 @@ namespace ServerAhorcado
             }
             else
             {
-                return "No words";
+                return "";
             }
         }
 
@@ -241,42 +250,49 @@ namespace ServerAhorcado
             int numLines = 0;
             if (File.Exists(pathRecords))
             {
-                using (StreamReader sr = new StreamReader(pathRecords))
-                {
-                    line = sr.ReadLine();
-                    while (line != null)
-                    {
-                        numLines++;
-                        line = sr.ReadLine();
-                    }
-                }
-                if (numLines < 10)       //writeline escribe retorno de carro != null vai haber unha liña máis
-                {
-                    return true;
-                }
-                else if (numLines == 10)     //comprobamos a ver se podería entrar
+                try
                 {
                     using (StreamReader sr = new StreamReader(pathRecords))
                     {
                         line = sr.ReadLine();
                         while (line != null)
                         {
-                            string[] timeRecord = line.Substring(0, 5).Split(':');
-
-                            if (Convert.ToInt32(timeRecord[0]) > Convert.ToInt32(time[0]))
-                            {
-                                return true;
-                            }
-                            else if (Convert.ToInt32(timeRecord[0]) == Convert.ToInt32(time[0]) &&
-                               Convert.ToInt32(timeRecord[1]) >= Convert.ToInt32(time[1]))
-                            {
-                                return true;
-                            }
+                            numLines++;
                             line = sr.ReadLine();
                         }
                     }
+                    if (numLines < 10)       //writeline escribe retorno de carro != null vai haber unha liña máis
+                    {
+                        return true;
+                    }
+                    else if (numLines == 10)     //comprobamos a ver se podería entrar
+                    {
+                        using (StreamReader sr = new StreamReader(pathRecords))
+                        {
+                            line = sr.ReadLine();
+                            while (line != null)
+                            {
+                                string[] timeRecord = line.Substring(0, 5).Split(':');
+
+                                if (Convert.ToInt32(timeRecord[0]) > Convert.ToInt32(time[0]))
+                                {
+                                    return true;
+                                }
+                                else if (Convert.ToInt32(timeRecord[0]) == Convert.ToInt32(time[0]) &&
+                                   Convert.ToInt32(timeRecord[1]) >= Convert.ToInt32(time[1]))
+                                {
+                                    return true;
+                                }
+                                line = sr.ReadLine();
+                            }
+                        }
+                    }
+                    return false; //non mellora ningún record
                 }
-                return false;       //non mellora ningún record
+                catch (IOException)
+                {
+                    return false;
+                }                       
             }
             else
             {
@@ -292,63 +308,70 @@ namespace ServerAhorcado
             int numLines = 0;
             bool anhadido = false;
 
-            using (StreamReader sr = new StreamReader(pathRecords))
-            using (StreamWriter sw = new StreamWriter(pahtRecordsTemp))
+            try
             {
-                line = sr.ReadLine();
-
-                if (line == null)        //se o fich está baleiro escribimos directamente
+                using (StreamReader sr = new StreamReader(pathRecords))
+                using (StreamWriter sw = new StreamWriter(pahtRecordsTemp))
                 {
-                    sw.WriteLine(record.Substring(SEND_RECORD.Length + 1));
-                }
+                    line = sr.ReadLine();
 
-                else
-                {
-                    while (line != null && numLines <= 9)       // 9 liñas fich + novo record
+                    if (line == null)        //se o fich está baleiro escribimos directamente
                     {
-                        if (!anhadido)  //se non está engadido record ---- comprobacións
-                        {
-                            string[] timeFileRecord = line.Substring(0, 5).Split(':');
+                        sw.WriteLine(record.Substring(SEND_RECORD.Length + 1));
+                    }
 
-                            if (Convert.ToInt32(timeFileRecord[0]) < Convert.ToInt32(timeRecord[0]) &&
-                                Convert.ToInt32(timeFileRecord[1]) < Convert.ToInt32(timeRecord[1]))
+                    else
+                    {
+                        while (line != null && numLines <= 9)       // 9 liñas fich + novo record
+                        {
+                            if (!anhadido)  //se non está engadido record ---- comprobacións
                             {
-                                sw.WriteLine(line);
-                            }
-                            else if (Convert.ToInt32(timeFileRecord[0]) == Convert.ToInt32(timeRecord[0]))
-                            {
-                                if (Convert.ToInt32(timeFileRecord[1]) < Convert.ToInt32(timeRecord[1]))
+                                string[] timeFileRecord = line.Substring(0, 5).Split(':');
+
+                                if (Convert.ToInt32(timeFileRecord[0]) < Convert.ToInt32(timeRecord[0]) &&
+                                    Convert.ToInt32(timeFileRecord[1]) < Convert.ToInt32(timeRecord[1]))
                                 {
                                     sw.WriteLine(line);
                                 }
-                                else
+                                else if (Convert.ToInt32(timeFileRecord[0]) == Convert.ToInt32(timeRecord[0]))
                                 {
-                                    sw.WriteLine(record.Substring(SEND_RECORD.Length + 1));
-                                    numLines++;
-                                    anhadido = true;
-                                    if (numLines < 10)
+                                    if (Convert.ToInt32(timeFileRecord[1]) < Convert.ToInt32(timeRecord[1]))
                                     {
                                         sw.WriteLine(line);
                                     }
+                                    else
+                                    {
+                                        sw.WriteLine(record.Substring(SEND_RECORD.Length + 1));
+                                        numLines++;
+                                        anhadido = true;
+                                        if (numLines < 10)
+                                        {
+                                            sw.WriteLine(line);
+                                        }
+                                    }
                                 }
                             }
-                        }
-                        else
-                        {
-                            sw.WriteLine(line);
-                        }
+                            else
+                            {
+                                sw.WriteLine(line);
+                            }
 
-                        line = sr.ReadLine();
-                        numLines++;
+                            line = sr.ReadLine();
+                            numLines++;
 
-                        if (!anhadido && line == null && numLines <= 10)  //se non se escribiu o record ata a última linea --- ultimo posto
-                        {
-                            sw.WriteLine(record.Substring(SEND_RECORD.Length + 1));
+                            if (!anhadido && line == null && numLines <= 10)  //se non se escribiu o record ata a última linea --- ultimo posto
+                            {
+                                sw.WriteLine(record.Substring(SEND_RECORD.Length + 1));
+                            }
                         }
                     }
                 }
+                File.Replace(pahtRecordsTemp, pathRecords, pahtRecordsBackUp);
             }
-            File.Replace(pahtRecordsTemp, pathRecords, pahtRecordsBackUp);
+            catch (IOException e)
+            {
+                Console.WriteLine(e.Message);
+            }           
         }
 
         private string ReadRecordsToSend()

@@ -32,6 +32,10 @@ namespace AhorcadoEnRed
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.nuevoJuegoToolStrip = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.nuevoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevoJuegoMnu = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,10 +46,7 @@ namespace AhorcadoEnRed
             this.cerrarServidorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.lblTimer = new System.Windows.Forms.Label();
-            this.nuevoJuegoToolStrip = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.dibujoAhorcado1 = new Dibujo.DibujoAhorcado();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -62,86 +63,6 @@ namespace AhorcadoEnRed
             this.toolStrip1.Size = new System.Drawing.Size(800, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nuevoToolStripMenuItem,
-            this.récordsToolStripMenuItem,
-            this.servidorToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // nuevoToolStripMenuItem
-            // 
-            this.nuevoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nuevoJuegoMnu});
-            this.nuevoToolStripMenuItem.Name = "nuevoToolStripMenuItem";
-            this.nuevoToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.nuevoToolStripMenuItem.Text = "New";
-            // 
-            // nuevoJuegoMnu
-            // 
-            this.nuevoJuegoMnu.Name = "nuevoJuegoMnu";
-            this.nuevoJuegoMnu.Size = new System.Drawing.Size(180, 22);
-            this.nuevoJuegoMnu.Text = "New word";
-            this.nuevoJuegoMnu.Click += new System.EventHandler(this.getWordMnu_clicl);
-            // 
-            // récordsToolStripMenuItem
-            // 
-            this.récordsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mostrarRécordsToolStripMenuItem});
-            this.récordsToolStripMenuItem.Name = "récordsToolStripMenuItem";
-            this.récordsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.récordsToolStripMenuItem.Text = "Records";
-            // 
-            // mostrarRécordsToolStripMenuItem
-            // 
-            this.mostrarRécordsToolStripMenuItem.Name = "mostrarRécordsToolStripMenuItem";
-            this.mostrarRécordsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.mostrarRécordsToolStripMenuItem.Text = "Show records";
-            this.mostrarRécordsToolStripMenuItem.Click += new System.EventHandler(this.showRecordsMnu_click);
-            // 
-            // servidorToolStripMenuItem
-            // 
-            this.servidorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nuevaPalabraMnu,
-            this.cerrarServidorToolStripMenuItem});
-            this.servidorToolStripMenuItem.Name = "servidorToolStripMenuItem";
-            this.servidorToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
-            this.servidorToolStripMenuItem.Text = "Server";
-            // 
-            // nuevaPalabraMnu
-            // 
-            this.nuevaPalabraMnu.Name = "nuevaPalabraMnu";
-            this.nuevaPalabraMnu.Size = new System.Drawing.Size(180, 22);
-            this.nuevaPalabraMnu.Text = "Send new word(s)";
-            this.nuevaPalabraMnu.Click += new System.EventHandler(this.sendWordMnu_click);
-            // 
-            // cerrarServidorToolStripMenuItem
-            // 
-            this.cerrarServidorToolStripMenuItem.Name = "cerrarServidorToolStripMenuItem";
-            this.cerrarServidorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.cerrarServidorToolStripMenuItem.Text = "Close server";
-            this.cerrarServidorToolStripMenuItem.Click += new System.EventHandler(this.closeServerMnu_click);
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // lblTimer
-            // 
-            this.lblTimer.AutoSize = true;
-            this.lblTimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTimer.Location = new System.Drawing.Point(40, 59);
-            this.lblTimer.Name = "lblTimer";
-            this.lblTimer.Size = new System.Drawing.Size(39, 13);
-            this.lblTimer.TabIndex = 2;
-            this.lblTimer.Text = "00:00";
             // 
             // nuevoJuegoToolStrip
             // 
@@ -166,7 +87,7 @@ namespace AhorcadoEnRed
             // toolStripButton1
             // 
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::AhorcadoEnRed.Properties.Resources.add;
+            this.toolStripButton1.Image = global::ClientAhorcado.Properties.Resources.add;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
@@ -176,18 +97,109 @@ namespace AhorcadoEnRed
             // toolStripButton3
             // 
             this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = global::AhorcadoEnRed.Properties.Resources.close;
+            this.toolStripButton3.Image = global::ClientAhorcado.Properties.Resources.close;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton3.Text = "Close server";
             this.toolStripButton3.Click += new System.EventHandler(this.closeServerMnu_click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nuevoToolStripMenuItem,
+            this.récordsToolStripMenuItem,
+            this.servidorToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // nuevoToolStripMenuItem
+            // 
+            this.nuevoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nuevoJuegoMnu});
+            this.nuevoToolStripMenuItem.Name = "nuevoToolStripMenuItem";
+            this.nuevoToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.nuevoToolStripMenuItem.Text = "New";
+            // 
+            // nuevoJuegoMnu
+            // 
+            this.nuevoJuegoMnu.Name = "nuevoJuegoMnu";
+            this.nuevoJuegoMnu.Size = new System.Drawing.Size(128, 22);
+            this.nuevoJuegoMnu.Text = "New word";
+            this.nuevoJuegoMnu.Click += new System.EventHandler(this.getWordMnu_clicl);
+            // 
+            // récordsToolStripMenuItem
+            // 
+            this.récordsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mostrarRécordsToolStripMenuItem});
+            this.récordsToolStripMenuItem.Name = "récordsToolStripMenuItem";
+            this.récordsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.récordsToolStripMenuItem.Text = "Records";
+            // 
+            // mostrarRécordsToolStripMenuItem
+            // 
+            this.mostrarRécordsToolStripMenuItem.Name = "mostrarRécordsToolStripMenuItem";
+            this.mostrarRécordsToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.mostrarRécordsToolStripMenuItem.Text = "Show records";
+            this.mostrarRécordsToolStripMenuItem.Click += new System.EventHandler(this.showRecordsMnu_click);
+            // 
+            // servidorToolStripMenuItem
+            // 
+            this.servidorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nuevaPalabraMnu,
+            this.cerrarServidorToolStripMenuItem});
+            this.servidorToolStripMenuItem.Name = "servidorToolStripMenuItem";
+            this.servidorToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.servidorToolStripMenuItem.Text = "Server";
+            // 
+            // nuevaPalabraMnu
+            // 
+            this.nuevaPalabraMnu.Name = "nuevaPalabraMnu";
+            this.nuevaPalabraMnu.Size = new System.Drawing.Size(168, 22);
+            this.nuevaPalabraMnu.Text = "Send new word(s)";
+            this.nuevaPalabraMnu.Click += new System.EventHandler(this.sendWordMnu_click);
+            // 
+            // cerrarServidorToolStripMenuItem
+            // 
+            this.cerrarServidorToolStripMenuItem.Name = "cerrarServidorToolStripMenuItem";
+            this.cerrarServidorToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.cerrarServidorToolStripMenuItem.Text = "Close server";
+            this.cerrarServidorToolStripMenuItem.Click += new System.EventHandler(this.closeServerMnu_click);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // lblTimer
+            // 
+            this.lblTimer.AutoSize = true;
+            this.lblTimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTimer.Location = new System.Drawing.Point(40, 59);
+            this.lblTimer.Name = "lblTimer";
+            this.lblTimer.Size = new System.Drawing.Size(39, 13);
+            this.lblTimer.TabIndex = 2;
+            this.lblTimer.Text = "00:00";
+            // 
+            // dibujoAhorcado1
+            // 
+            this.dibujoAhorcado1.Errores = 0;
+            this.dibujoAhorcado1.Location = new System.Drawing.Point(303, 167);
+            this.dibujoAhorcado1.Name = "dibujoAhorcado1";
+            this.dibujoAhorcado1.Size = new System.Drawing.Size(185, 227);
+            this.dibujoAhorcado1.TabIndex = 3;
+            this.dibujoAhorcado1.Text = "dibujoAhorcado1";
+            this.dibujoAhorcado1.Ahorcado += new System.EventHandler(this.dibujoAhorcado1_Ahorcado);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.dibujoAhorcado1);
             this.Controls.Add(this.lblTimer);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -223,6 +235,7 @@ namespace AhorcadoEnRed
         internal System.Windows.Forms.Label lblTimer;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private Dibujo.DibujoAhorcado dibujoAhorcado1;
     }
 }
 

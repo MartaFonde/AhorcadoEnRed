@@ -102,7 +102,15 @@ namespace AhorcadoEnRed
                             {
                                 case GET_WORD:
                                     word = sr.ReadLine();
-                                    drawNewWord();
+                                    if(word.Length > 0)
+                                    {
+                                        drawNewWord();
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("No words in server. Introduce new words", "Error");
+                                    }
+                                    
                                     break;
 
                                 case GET_RECORDS:
@@ -190,6 +198,7 @@ namespace AhorcadoEnRed
         private void getWordMnu_clicl(object sender, EventArgs e)
         {
             sendToServer(GET_WORD);
+            dibujoAhorcado1.Errores = 0;
         }
 
         private void showRecordsMnu_click(object sender, EventArgs e)
@@ -268,6 +277,7 @@ namespace AhorcadoEnRed
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
+            bool acierto = false;
             foreach (Control c in Controls)
             {
                 if (c is Label && c.Name != "lblTimer")
@@ -276,9 +286,15 @@ namespace AhorcadoEnRed
                     {
                         ((Label)c).Text = c.Tag.ToString();
                         letters.Remove((char)c.Tag);
-                    }
+                        acierto = true;
+                    }                    
                 }
-            }            
+            }
+            if (!acierto)
+            {
+                dibujoAhorcado1.Errores++;
+            }
+
             if (letters.Count == 0)
             {
                 timer1.Enabled = false;
@@ -305,6 +321,19 @@ namespace AhorcadoEnRed
                 }
             }
             
+        }
+
+        private void dibujoAhorcado1_Ahorcado(object sender, EventArgs e)
+        {
+            MessageBox.Show("AHORCADO", "Partida finalizada");
+            foreach (Control c in Controls)
+            {
+                if (c is Label && c.Name != "lblTimer")
+                {                    
+                    ((Label)c).Text = c.Tag.ToString();
+                }
+            }
+            timer1.Enabled = false;
         }
     }
 }

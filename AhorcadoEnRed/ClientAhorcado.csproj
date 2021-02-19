@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{926329EB-380D-4008-A9C9-081C1DC0E9EB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>AhorcadoEnRed</RootNamespace>
-    <AssemblyName>AhorcadoEnRed</AssemblyName>
+    <RootNamespace>ClientAhorcado</RootNamespace>
+    <AssemblyName>ClientAhorcado</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -118,6 +118,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dibujo\Dibujo.csproj">
+      <Project>{1466EF67-04C0-4E1A-A46D-9844FA8E9818}</Project>
+      <Name>Dibujo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
