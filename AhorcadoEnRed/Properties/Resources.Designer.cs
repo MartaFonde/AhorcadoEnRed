@@ -136,7 +136,7 @@ namespace AhorcadoEnRed.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a English.
+        ///   Busca una cadena traducida similar a &amp;English.
         /// </summary>
         public static string English {
             get {
@@ -163,7 +163,7 @@ namespace AhorcadoEnRed.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Gallician.
+        ///   Busca una cadena traducida similar a &amp;Galician.
         /// </summary>
         public static string Gallician {
             get {
@@ -208,7 +208,7 @@ namespace AhorcadoEnRed.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Language.
+        ///   Busca una cadena traducida similar a &amp;Language.
         /// </summary>
         public static string Lang {
             get {
@@ -217,7 +217,7 @@ namespace AhorcadoEnRed.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a New.
+        ///   Busca una cadena traducida similar a &amp;New.
         /// </summary>
         public static string NewMnu {
             get {
@@ -226,7 +226,7 @@ namespace AhorcadoEnRed.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a New word.
+        ///   Busca una cadena traducida similar a New &amp;word.
         /// </summary>
         public static string NewWord {
             get {
@@ -290,6 +290,24 @@ namespace AhorcadoEnRed.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Name (max lenght 3 characters).
+        /// </summary>
+        public static string SaveRecordLbl {
+            get {
+                return ResourceManager.GetString("SaveRecordLbl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Save Record.
+        /// </summary>
+        public static string SaveRecordTitle {
+            get {
+                return ResourceManager.GetString("SaveRecordTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Send new word(s).
         /// </summary>
         public static string SendNewWord {
@@ -299,7 +317,7 @@ namespace AhorcadoEnRed.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Send word(s) to server.
+        ///   Busca una cadena traducida similar a Send word(s).
         /// </summary>
         public static string SendWord {
             get {
@@ -308,7 +326,7 @@ namespace AhorcadoEnRed.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Server.
+        ///   Busca una cadena traducida similar a &amp;Server.
         /// </summary>
         public static string Server {
             get {
@@ -317,7 +335,7 @@ namespace AhorcadoEnRed.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Show Records.
+        ///   Busca una cadena traducida similar a &amp;Show Records.
         /// </summary>
         public static string ShowRecords {
             get {

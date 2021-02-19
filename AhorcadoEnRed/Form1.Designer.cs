@@ -30,6 +30,7 @@ namespace AhorcadoEnRed
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.newWordToolStrip = new System.Windows.Forms.ToolStripButton();
             this.recordToolStrip = new System.Windows.Forms.ToolStripButton();
@@ -125,13 +126,13 @@ namespace AhorcadoEnRed
             this.newWordMnu});
             this.newMnu.Name = "newMnu";
             this.newMnu.Size = new System.Drawing.Size(43, 20);
-            this.newMnu.Text = "New";
+            this.newMnu.Text = "&New";
             // 
             // newWordMnu
             // 
             this.newWordMnu.Name = "newWordMnu";
             this.newWordMnu.Size = new System.Drawing.Size(128, 22);
-            this.newWordMnu.Text = "New word";
+            this.newWordMnu.Text = "New &word";
             this.newWordMnu.Click += new System.EventHandler(this.getWordMnu_clicl);
             // 
             // recodsMnu
@@ -140,13 +141,13 @@ namespace AhorcadoEnRed
             this.showRecordsMnu});
             this.recodsMnu.Name = "recodsMnu";
             this.recodsMnu.Size = new System.Drawing.Size(61, 20);
-            this.recodsMnu.Text = "Records";
+            this.recodsMnu.Text = "&Records";
             // 
             // showRecordsMnu
             // 
             this.showRecordsMnu.Name = "showRecordsMnu";
             this.showRecordsMnu.Size = new System.Drawing.Size(145, 22);
-            this.showRecordsMnu.Text = "Show records";
+            this.showRecordsMnu.Text = "&Show records";
             this.showRecordsMnu.Click += new System.EventHandler(this.showRecordsMnu_click);
             // 
             // serverMnu
@@ -156,20 +157,20 @@ namespace AhorcadoEnRed
             this.closeServerMnu});
             this.serverMnu.Name = "serverMnu";
             this.serverMnu.Size = new System.Drawing.Size(51, 20);
-            this.serverMnu.Text = "Server";
+            this.serverMnu.Text = "&Server";
             // 
             // sendNewWordMnu
             // 
             this.sendNewWordMnu.Name = "sendNewWordMnu";
             this.sendNewWordMnu.Size = new System.Drawing.Size(168, 22);
-            this.sendNewWordMnu.Text = "Send new word(s)";
+            this.sendNewWordMnu.Text = "Send new &word(s)";
             this.sendNewWordMnu.Click += new System.EventHandler(this.sendWordMnu_click);
             // 
             // closeServerMnu
             // 
             this.closeServerMnu.Name = "closeServerMnu";
             this.closeServerMnu.Size = new System.Drawing.Size(168, 22);
-            this.closeServerMnu.Text = "Close server";
+            this.closeServerMnu.Text = "&Close server";
             this.closeServerMnu.Click += new System.EventHandler(this.closeServerMnu_click);
             // 
             // languageToolStripMenuItem
@@ -179,7 +180,7 @@ namespace AhorcadoEnRed
             this.galicianToolStripMenuItem});
             this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
             this.languageToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
-            this.languageToolStripMenuItem.Text = "Language";
+            this.languageToolStripMenuItem.Text = "&Language";
             // 
             // englishToolStripMenuItem
             // 
@@ -188,7 +189,7 @@ namespace AhorcadoEnRed
             this.englishToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
             this.englishToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.englishToolStripMenuItem.Text = "English";
+            this.englishToolStripMenuItem.Text = "&English";
             this.englishToolStripMenuItem.CheckedChanged += new System.EventHandler(this.englishToolStripMenuItem_CheckedChanged);
             this.englishToolStripMenuItem.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
             // 
@@ -197,7 +198,7 @@ namespace AhorcadoEnRed
             this.galicianToolStripMenuItem.CheckOnClick = true;
             this.galicianToolStripMenuItem.Name = "galicianToolStripMenuItem";
             this.galicianToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.galicianToolStripMenuItem.Text = "Galician";
+            this.galicianToolStripMenuItem.Text = "&Galician";
             this.galicianToolStripMenuItem.CheckedChanged += new System.EventHandler(this.galicianToolStripMenuItem_CheckedChanged);
             this.galicianToolStripMenuItem.Click += new System.EventHandler(this.galicianToolStripMenuItem_Click);
             // 
@@ -235,6 +236,7 @@ namespace AhorcadoEnRed
             this.Controls.Add(this.lblTimer);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";

@@ -229,6 +229,8 @@ namespace AhorcadoEnRed
         private bool requestNameUserIP()
         {
             Form3 f3 = new Form3();
+            f3.Text = Properties.Resources.SaveRecordTitle;
+            f3.label1.Text = Properties.Resources.SaveRecordLbl;
             f3.StartPosition = FormStartPosition.CenterScreen;
             f3.lblErrorName.Text = "";
             bool nameCorrect = false;
@@ -278,7 +280,7 @@ namespace AhorcadoEnRed
             {
                 sServer.Connect(ie);
                 sendToServer(GET_WORD);                                
-                timer1.Enabled = true;                
+                //timer1.Enabled = true;                
             }
             catch (SocketException ex)
             {
@@ -389,7 +391,7 @@ namespace AhorcadoEnRed
             recordToolStrip.Text = Properties.Resources.ShowRecords;
 
             serverMnu.Text = Properties.Resources.Server;
-            sendNewWordMnu.Text = Properties.Resources.SendNewWord;
+            sendNewWordMnu.Text = Properties.Resources.SendWord;
             closeServerMnu.Text = Properties.Resources.CloseServer;
 
             languageToolStripMenuItem.Text = Properties.Resources.Lang;

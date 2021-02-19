@@ -10,6 +10,10 @@ using System.Windows.Forms;
 
 namespace Dibujo
 {
+    [
+       DefaultProperty("Errores"),
+       DefaultEvent("Ahorcado")
+    ]
     public partial class DibujoAhorcado : Control
     {
         private int errores;

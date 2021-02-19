@@ -165,18 +165,27 @@ namespace ServerAhorcado
                         line = sr.ReadLine();
                         while (line != null)
                         {
-                            words.Add(line);
+                            if(line.Length > 0)
+                            {
+                                words.Add(line);
+                            }                            
                             line = sr.ReadLine();
                         }
                     }
                 }
                 catch (IOException)
                 {
-
                     return false;
                 }
-                
-                return true;
+
+                if(words.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }                
             }
             else
             {

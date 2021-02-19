@@ -90,10 +90,9 @@ namespace AhorcadoEnRed
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
         internal System.Windows.Forms.TextBox txtName;
         internal System.Windows.Forms.Label lblErrorName;
         internal System.Windows.Forms.Button btnOK;
+        internal System.Windows.Forms.Label label1;
     }
 }
