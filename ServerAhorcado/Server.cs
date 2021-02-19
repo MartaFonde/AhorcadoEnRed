@@ -222,7 +222,10 @@ namespace ServerAhorcado
                             string[] newWords = line.Split(',');
                             foreach (string word in newWords)
                             {
-                                sw.WriteLine(word.Trim());
+                                if(word.Trim().Length > 0)
+                                {
+                                    sw.WriteLine(word.Trim());
+                                }                                
                                 line = sr.ReadLine();
                             }
                         }
