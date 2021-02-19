@@ -18,6 +18,7 @@ namespace Dibujo
             set
             {
                 errores = value;
+                CambiaError?.Invoke(this, EventArgs.Empty);
                 Refresh();
                 if(errores == 6)        //completa dibujo
                 {

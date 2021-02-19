@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Globalization;
+using System.Resources;
 
 namespace AhorcadoEnRed
 {
@@ -44,7 +46,21 @@ namespace AhorcadoEnRed
 
         public Form1()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            newMnu.Text = ClientAhorcado.Properties.recursos.NewMnu;
+            newWordMnu.Text = ClientAhorcado.Properties.recursos.NewWord;
+            newWordToolStrip.Text = ClientAhorcado.Properties.recursos.NewWord;
+
+            showRecordsMnu.Text = ClientAhorcado.Properties.recursos.ShowRecords;
+            recordToolStrip.Text = ClientAhorcado.Properties.recursos.ShowRecords;
+
+            serverMnu.Text = ClientAhorcado.Properties.recursos.Server;
+            sendNewWordMnu.Text = ClientAhorcado.Properties.recursos.SendNewWord;
+            closeServerMnu.Text = ClientAhorcado.Properties.recursos.CloseServer;
+
+            languageToolStripMenuItem.Text = ClientAhorcado.Properties.recursos.Lang;
+            englishToolStripMenuItem.Text = ClientAhorcado.Properties.recursos.English;
+            galicianToolStripMenuItem.Text = ClientAhorcado.Properties.recursos.Gallician;
         }
 
         private void sendToServer(string msg)
@@ -77,11 +93,13 @@ namespace AhorcadoEnRed
                             string resp = sr.ReadLine();
                             if(resp == "True")
                             {
-                                MessageBox.Show("Word(s) added correctly", "Add word(s)");
+                                MessageBox.Show(ClientAhorcado.Properties.recursos.AddWordsMsgOK,
+                                    ClientAhorcado.Properties.recursos.AddWordsTitleOK);
                             }
                             else
                             {
-                                MessageBox.Show("Error adding word(s)", "Error");
+                                MessageBox.Show(ClientAhorcado.Properties.recursos.AddWordsMsgError,
+                                    ClientAhorcado.Properties.recursos.Error);
                             }
                         }
                         else if (msg.StartsWith(CLOSE_SERVER))
@@ -89,11 +107,13 @@ namespace AhorcadoEnRed
                             msgFromServer = sr.ReadLine();
                             if(msgFromServer == "True")
                             {
-                                MessageBox.Show("Password correct. Server closed.", "Close server");
+                                MessageBox.Show(ClientAhorcado.Properties.recursos.PswMsgOK, 
+                                    ClientAhorcado.Properties.recursos.CloseServerTitle);
                             }
                             else
                             {
-                                MessageBox.Show("Password incorrect. Server still alive.", "Close server");
+                                MessageBox.Show(ClientAhorcado.Properties.recursos.PswMsgInc,
+                                    ClientAhorcado.Properties.recursos.CloseServerTitle);
                             }
                         }
                         else
@@ -108,7 +128,8 @@ namespace AhorcadoEnRed
                                     }
                                     else
                                     {
-                                        MessageBox.Show("No words in server. Introduce new words", "Error");
+                                        MessageBox.Show(ClientAhorcado.Properties.recursos.NoWordMsg,
+                                            ClientAhorcado.Properties.recursos.Error);
                                     }
                                     
                                     break;
@@ -124,7 +145,8 @@ namespace AhorcadoEnRed
             }
             catch (IOException)
             {
-                MessageBox.Show("Error de conexión", "Error");
+                MessageBox.Show(ClientAhorcado.Properties.recursos.ErrorConexion, 
+                    ClientAhorcado.Properties.recursos.Error);
             }                                                 
         }
 
@@ -147,7 +169,7 @@ namespace AhorcadoEnRed
                     }
                     else
                     {
-                        f2.lblError.Text = "Introduce new word";
+                        f2.lblError.Text = ClientAhorcado.Properties.recursos.IntroNewWord;
                     }
                 }
                 else
@@ -225,7 +247,7 @@ namespace AhorcadoEnRed
                 {                    
                     if(f3.txtName.Text.Length == 0)
                     {
-                        f3.lblErrorName.Text = "Introduce name";
+                        f3.lblErrorName.Text = ClientAhorcado.Properties.recursos.IntroName;
                     }
                     else
                     {                        
@@ -269,7 +291,8 @@ namespace AhorcadoEnRed
             catch (SocketException ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
-                MessageBox.Show("No connection available", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ClientAhorcado.Properties.recursos.NoConnAvailable, ClientAhorcado.Properties.recursos.Error, 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
                 return;
             }
@@ -325,7 +348,8 @@ namespace AhorcadoEnRed
 
         private void dibujoAhorcado1_Ahorcado(object sender, EventArgs e)
         {
-            MessageBox.Show("AHORCADO", "Partida finalizada");
+            MessageBox.Show(ClientAhorcado.Properties.recursos.Hanged, 
+                ClientAhorcado.Properties.recursos.GameOver);
             foreach (Control c in Controls)
             {
                 if (c is Label && c.Name != "lblTimer")
@@ -335,5 +359,34 @@ namespace AhorcadoEnRed
             }
             timer1.Enabled = false;
         }
+
+        private void englishToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (englishToolStripMenuItem.Checked == true)      
+            {
+                Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
+                galicianToolStripMenuItem.Checked = false;
+            }
+            else
+            {
+                Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("gl");
+                galicianToolStripMenuItem.Checked = true;
+            }
+        }
+
+        private void galicianToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (galicianToolStripMenuItem.Checked == true)      
+            {
+                Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("gl");
+                englishToolStripMenuItem.Checked = false;
+            }
+            else
+            {
+                Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
+                englishToolStripMenuItem.Checked = true;
+            }
+        }
+        
     }
 }

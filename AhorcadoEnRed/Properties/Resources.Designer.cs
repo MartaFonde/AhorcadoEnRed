@@ -65,7 +65,7 @@ namespace ClientAhorcado.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap _new {
             get {
-                object obj = ResourceManager.GetObject("_new", resourceCulture);
+                object obj = ResourceManager.GetObject("new", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
