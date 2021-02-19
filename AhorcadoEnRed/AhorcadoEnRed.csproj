@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{926329EB-380D-4008-A9C9-081C1DC0E9EB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ClientAhorcado</RootNamespace>
-    <AssemblyName>ClientAhorcado</AssemblyName>
+    <RootNamespace>AhorcadoEnRed</RootNamespace>
+    <AssemblyName>AhorcadoEnRed</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -84,31 +84,31 @@
     <EmbeddedResource Include="Form4.resx">
       <DependentUpon>Form4.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\recursos.gl-GL.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>recursos.gl-GL.Designer.cs</LastGenOutput>
+    <EmbeddedResource Include="Properties\Resources.gl.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.gl.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\recursos.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>recursos.Designer.cs</LastGenOutput>
+    <EmbeddedResource Include="Properties\Resources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Compile Include="Properties\recursos.gl-GL.Designer.cs">
-      <DependentUpon>recursos.gl-GL.resx</DependentUpon>
+    <Compile Include="Properties\Resources.gl.Designer.cs">
+      <DependentUpon>Resources.gl.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Properties\recursos.Designer.cs">
+    <Compile Include="Properties\Resources.en.Designer.cs">
+      <DependentUpon>Resources.en.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>recursos.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -141,18 +141,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\records.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\add1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\records1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\new1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\close1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -30,7 +30,7 @@ namespace AhorcadoEnRed
         private void InitializeComponent()
         {
             this.txtWord = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbl = new System.Windows.Forms.Label();
             this.lblError = new System.Windows.Forms.Label();
             this.btnOK = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -42,14 +42,14 @@ namespace AhorcadoEnRed
             this.txtWord.Size = new System.Drawing.Size(170, 20);
             this.txtWord.TabIndex = 0;
             // 
-            // label1
+            // lbl
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 49);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "New word";
+            this.lbl.AutoSize = true;
+            this.lbl.Location = new System.Drawing.Point(12, 49);
+            this.lbl.Name = "lbl";
+            this.lbl.Size = new System.Drawing.Size(55, 13);
+            this.lbl.TabIndex = 1;
+            this.lbl.Text = "New word";
             // 
             // lblError
             // 
@@ -71,7 +71,7 @@ namespace AhorcadoEnRed
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
-            // Form3
+            // Form2
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -79,9 +79,9 @@ namespace AhorcadoEnRed
             this.ClientSize = new System.Drawing.Size(449, 157);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.lblError);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbl);
             this.Controls.Add(this.txtWord);
-            this.Name = "Form3";
+            this.Name = "Form2";
             this.Text = "New Word";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -91,8 +91,8 @@ namespace AhorcadoEnRed
         #endregion
 
         internal System.Windows.Forms.TextBox txtWord;
-        private System.Windows.Forms.Label label1;
         internal System.Windows.Forms.Label lblError;
         internal System.Windows.Forms.Button btnOK;
+        internal System.Windows.Forms.Label lbl;
     }
 }

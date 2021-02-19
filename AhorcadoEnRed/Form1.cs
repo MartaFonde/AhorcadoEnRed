@@ -47,20 +47,10 @@ namespace AhorcadoEnRed
         public Form1()
         {
             InitializeComponent();
-            newMnu.Text = ClientAhorcado.Properties.recursos.NewMnu;
-            newWordMnu.Text = ClientAhorcado.Properties.recursos.NewWord;
-            newWordToolStrip.Text = ClientAhorcado.Properties.recursos.NewWord;
 
-            showRecordsMnu.Text = ClientAhorcado.Properties.recursos.ShowRecords;
-            recordToolStrip.Text = ClientAhorcado.Properties.recursos.ShowRecords;
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
 
-            serverMnu.Text = ClientAhorcado.Properties.recursos.Server;
-            sendNewWordMnu.Text = ClientAhorcado.Properties.recursos.SendNewWord;
-            closeServerMnu.Text = ClientAhorcado.Properties.recursos.CloseServer;
-
-            languageToolStripMenuItem.Text = ClientAhorcado.Properties.recursos.Lang;
-            englishToolStripMenuItem.Text = ClientAhorcado.Properties.recursos.English;
-            galicianToolStripMenuItem.Text = ClientAhorcado.Properties.recursos.Gallician;
+            setMnuStrings();
         }
 
         private void sendToServer(string msg)
@@ -93,13 +83,13 @@ namespace AhorcadoEnRed
                             string resp = sr.ReadLine();
                             if(resp == "True")
                             {
-                                MessageBox.Show(ClientAhorcado.Properties.recursos.AddWordsMsgOK,
-                                    ClientAhorcado.Properties.recursos.AddWordsTitleOK);
+                                MessageBox.Show(Properties.Resources.AddWordsMsgOK,
+                                    Properties.Resources.AddWordsTitleOK);
                             }
                             else
                             {
-                                MessageBox.Show(ClientAhorcado.Properties.recursos.AddWordsMsgError,
-                                    ClientAhorcado.Properties.recursos.Error);
+                                MessageBox.Show(Properties.Resources.AddWordsMsgError,
+                                    Properties.Resources.Error);
                             }
                         }
                         else if (msg.StartsWith(CLOSE_SERVER))
@@ -107,13 +97,13 @@ namespace AhorcadoEnRed
                             msgFromServer = sr.ReadLine();
                             if(msgFromServer == "True")
                             {
-                                MessageBox.Show(ClientAhorcado.Properties.recursos.PswMsgOK, 
-                                    ClientAhorcado.Properties.recursos.CloseServerTitle);
+                                MessageBox.Show(Properties.Resources.PswMsgOK, 
+                                    Properties.Resources.CloseServerTitle);
                             }
                             else
                             {
-                                MessageBox.Show(ClientAhorcado.Properties.recursos.PswMsgInc,
-                                    ClientAhorcado.Properties.recursos.CloseServerTitle);
+                                MessageBox.Show(Properties.Resources.PswMsgInc,
+                                    Properties.Resources.CloseServerTitle);
                             }
                         }
                         else
@@ -128,8 +118,8 @@ namespace AhorcadoEnRed
                                     }
                                     else
                                     {
-                                        MessageBox.Show(ClientAhorcado.Properties.recursos.NoWordMsg,
-                                            ClientAhorcado.Properties.recursos.Error);
+                                        MessageBox.Show(Properties.Resources.NoWordMsg,
+                                            Properties.Resources.Error);
                                     }
                                     
                                     break;
@@ -145,14 +135,16 @@ namespace AhorcadoEnRed
             }
             catch (IOException)
             {
-                MessageBox.Show(ClientAhorcado.Properties.recursos.ErrorConexion, 
-                    ClientAhorcado.Properties.recursos.Error);
+                MessageBox.Show(Properties.Resources.ErrorConexion, 
+                    Properties.Resources.Error);
             }                                                 
         }
 
         private void sendWordMnu_click(object sender, EventArgs e)
         {
             Form2 f2 = new Form2();
+            f2.Text = Properties.Resources.NewWord;
+            f2.lbl.Text = Properties.Resources.NewWord;
             f2.StartPosition = FormStartPosition.CenterScreen;
             f2.lblError.Text = "";
             bool wordCorrect = false;
@@ -169,7 +161,7 @@ namespace AhorcadoEnRed
                     }
                     else
                     {
-                        f2.lblError.Text = ClientAhorcado.Properties.recursos.IntroNewWord;
+                        f2.lblError.Text = Properties.Resources.IntroNewWord;
                     }
                 }
                 else
@@ -247,7 +239,7 @@ namespace AhorcadoEnRed
                 {                    
                     if(f3.txtName.Text.Length == 0)
                     {
-                        f3.lblErrorName.Text = ClientAhorcado.Properties.recursos.IntroName;
+                        f3.lblErrorName.Text = Properties.Resources.IntroName;
                     }
                     else
                     {                        
@@ -291,7 +283,7 @@ namespace AhorcadoEnRed
             catch (SocketException ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
-                MessageBox.Show(ClientAhorcado.Properties.recursos.NoConnAvailable, ClientAhorcado.Properties.recursos.Error, 
+                MessageBox.Show(Properties.Resources.NoConnAvailable, Properties.Resources.Error, 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
                 return;
@@ -334,7 +326,9 @@ namespace AhorcadoEnRed
 
         private void closeServerMnu_click(object sender, EventArgs e)
         {
-            Form4 f4 = new Form4();        
+            Form4 f4 = new Form4();
+            f4.Text = Properties.Resources.CloseServer;
+            f4.lbl.Text = Properties.Resources.Psw;
             DialogResult res = f4.ShowDialog();
             if(res == DialogResult.OK)
             {
@@ -342,14 +336,13 @@ namespace AhorcadoEnRed
                 {
                     sendToServer(CLOSE_SERVER + " " + f4.txtPwd.Text);
                 }
-            }
-            
+            }            
         }
 
         private void dibujoAhorcado1_Ahorcado(object sender, EventArgs e)
         {
-            MessageBox.Show(ClientAhorcado.Properties.recursos.Hanged, 
-                ClientAhorcado.Properties.recursos.GameOver);
+            MessageBox.Show(Properties.Resources.Hanged, 
+                Properties.Resources.GameOver);
             foreach (Control c in Controls)
             {
                 if (c is Label && c.Name != "lblTimer")
@@ -362,31 +355,49 @@ namespace AhorcadoEnRed
 
         private void englishToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            if (englishToolStripMenuItem.Checked == true)      
-            {
-                Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
-                galicianToolStripMenuItem.Checked = false;
-            }
-            else
-            {
-                Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("gl");
-                galicianToolStripMenuItem.Checked = true;
-            }
+            galicianToolStripMenuItem.Checked = false;
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
+            setMnuStrings();
         }
 
         private void galicianToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            if (galicianToolStripMenuItem.Checked == true)      
-            {
-                Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("gl");
-                englishToolStripMenuItem.Checked = false;
-            }
-            else
-            {
-                Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
-                englishToolStripMenuItem.Checked = true;
-            }
+            englishToolStripMenuItem.Checked = false;
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("gl");
+            setMnuStrings();
         }
-        
+
+        private void englishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            englishToolStripMenuItem.Checked = true;
+        }
+
+        private void galicianToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            galicianToolStripMenuItem.Checked = true;
+        }
+
+        private void setMnuStrings()
+        {
+            this.Text = Properties.Resources.Title;
+
+            newMnu.Text = Properties.Resources.NewMnu;
+            newWordMnu.Text = Properties.Resources.NewWord;
+            newWordToolStrip.Text = Properties.Resources.NewWord;
+
+            showRecordsMnu.Text = Properties.Resources.ShowRecords;
+            recordToolStrip.Text = Properties.Resources.ShowRecords;
+
+            serverMnu.Text = Properties.Resources.Server;
+            sendNewWordMnu.Text = Properties.Resources.SendNewWord;
+            closeServerMnu.Text = Properties.Resources.CloseServer;
+
+            languageToolStripMenuItem.Text = Properties.Resources.Lang;
+            englishToolStripMenuItem.Text = Properties.Resources.English;
+            galicianToolStripMenuItem.Text = Properties.Resources.Gallician;
+
+            addToolStrip.Text = Properties.Resources.SendWord;
+            closeToolStrip.Text = Properties.Resources.CloseServerTitle;
+        }        
     }
 }

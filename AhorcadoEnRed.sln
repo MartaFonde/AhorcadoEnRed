@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientAhorcado", "AhorcadoEnRed\ClientAhorcado.csproj", "{926329EB-380D-4008-A9C9-081C1DC0E9EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AhorcadoEnRed", "AhorcadoEnRed\AhorcadoEnRed.csproj", "{926329EB-380D-4008-A9C9-081C1DC0E9EB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerAhorcado", "ServerAhorcado\ServerAhorcado.csproj", "{78FB76EE-97EC-4BCA-86E5-C43AB363DE4A}"
 EndProject

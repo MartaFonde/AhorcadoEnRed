@@ -117,10 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="add" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="AddWordsMsgError" xml:space="preserve">
     <value>Error adding word(s)</value>
   </data>
@@ -129,9 +125,6 @@
   </data>
   <data name="AddWordsTitleOK" xml:space="preserve">
     <value>Add word(s)</value>
-  </data>
-  <data name="close" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CloseServer" xml:space="preserve">
     <value>Close</value>
@@ -184,17 +177,33 @@
   <data name="PswMsgOK" xml:space="preserve">
     <value>Password correct. Server closed.</value>
   </data>
-  <data name="records" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\records.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SendNewWord" xml:space="preserve">
-    <value>Send new word</value>
+    <value>Send new word(s)</value>
   </data>
   <data name="Server" xml:space="preserve">
-    <value>Servidor</value>
+    <value>Server</value>
   </data>
   <data name="ShowRecords" xml:space="preserve">
     <value>Show Records</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="close" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Psw" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="records" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\records.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SendWords" xml:space="preserve">
+    <value>Send word(s)</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Hanged man in network</value>
   </data>
   <data name="_new" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\new.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

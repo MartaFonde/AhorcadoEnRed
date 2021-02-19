@@ -69,7 +69,7 @@ namespace AhorcadoEnRed
             // newWordToolStrip
             // 
             this.newWordToolStrip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.newWordToolStrip.Image = global::ClientAhorcado.Properties.Resources._new;
+            this.newWordToolStrip.Image = global::AhorcadoEnRed.Properties.Resources._new;
             this.newWordToolStrip.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newWordToolStrip.Name = "newWordToolStrip";
             this.newWordToolStrip.Size = new System.Drawing.Size(23, 22);
@@ -80,7 +80,7 @@ namespace AhorcadoEnRed
             // recordToolStrip
             // 
             this.recordToolStrip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.recordToolStrip.Image = global::ClientAhorcado.Properties.Resources.records;
+            this.recordToolStrip.Image = global::AhorcadoEnRed.Properties.Resources.records;
             this.recordToolStrip.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.recordToolStrip.Name = "recordToolStrip";
             this.recordToolStrip.Size = new System.Drawing.Size(23, 22);
@@ -90,17 +90,16 @@ namespace AhorcadoEnRed
             // addToolStrip
             // 
             this.addToolStrip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.addToolStrip.Image = global::ClientAhorcado.Properties.Resources.add;
+            this.addToolStrip.Image = global::AhorcadoEnRed.Properties.Resources.add;
             this.addToolStrip.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addToolStrip.Name = "addToolStrip";
             this.addToolStrip.Size = new System.Drawing.Size(23, 22);
-            this.addToolStrip.Text = "Send word(s) to server";
             this.addToolStrip.Click += new System.EventHandler(this.sendWordMnu_click);
             // 
             // closeToolStrip
             // 
             this.closeToolStrip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.closeToolStrip.Image = global::ClientAhorcado.Properties.Resources.close;
+            this.closeToolStrip.Image = global::AhorcadoEnRed.Properties.Resources.close;
             this.closeToolStrip.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.closeToolStrip.Name = "closeToolStrip";
             this.closeToolStrip.Size = new System.Drawing.Size(23, 22);
@@ -191,6 +190,7 @@ namespace AhorcadoEnRed
             this.englishToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.englishToolStripMenuItem.Text = "English";
             this.englishToolStripMenuItem.CheckedChanged += new System.EventHandler(this.englishToolStripMenuItem_CheckedChanged);
+            this.englishToolStripMenuItem.Click += new System.EventHandler(this.englishToolStripMenuItem_Click);
             // 
             // galicianToolStripMenuItem
             // 
@@ -199,6 +199,7 @@ namespace AhorcadoEnRed
             this.galicianToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.galicianToolStripMenuItem.Text = "Galician";
             this.galicianToolStripMenuItem.CheckedChanged += new System.EventHandler(this.galicianToolStripMenuItem_CheckedChanged);
+            this.galicianToolStripMenuItem.Click += new System.EventHandler(this.galicianToolStripMenuItem_Click);
             // 
             // timer1
             // 

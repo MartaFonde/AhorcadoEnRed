@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClientAhorcado.Properties {
+namespace AhorcadoEnRed.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

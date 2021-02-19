@@ -29,19 +29,19 @@ namespace AhorcadoEnRed
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbl = new System.Windows.Forms.Label();
             this.txtPwd = new System.Windows.Forms.TextBox();
             this.btnOk = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // label1
+            // lbl
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(34, 36);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Password";
+            this.lbl.AutoSize = true;
+            this.lbl.Location = new System.Drawing.Point(34, 36);
+            this.lbl.Name = "lbl";
+            this.lbl.Size = new System.Drawing.Size(53, 13);
+            this.lbl.TabIndex = 0;
+            this.lbl.Text = "Password";
             // 
             // txtPwd
             // 
@@ -69,7 +69,7 @@ namespace AhorcadoEnRed
             this.ClientSize = new System.Drawing.Size(323, 149);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.txtPwd);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbl);
             this.Name = "Form4";
             this.Text = "Close server";
             this.ResumeLayout(false);
@@ -78,9 +78,8 @@ namespace AhorcadoEnRed
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
         internal System.Windows.Forms.TextBox txtPwd;
         internal System.Windows.Forms.Button btnOk;
+        internal System.Windows.Forms.Label lbl;
     }
 }
